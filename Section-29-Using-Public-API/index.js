@@ -3,16 +3,32 @@ import axios from "axios";
 
 const app = express();
 const port = 3000;
-const API_URL = "https://v2.jokeapi.dev/joke/Any?type=twopart"
+const API_URL = "https://v2.jokeapi.dev/joke/Programming?type=twopart&idRange=1369-1370"
 app.use(express.static("public"));
 
 app.get("/", async (req, res) => {
-    const result = await axios.get(API_URL)
-    console.log(result.data)
-    res.render("index.ejs", {
-        joke: result.data.setup,
-        delivery: result.data.delivery,
-    })
+    try {
+        const result = await axios.get(API_URL)
+        if (result.data.error) {
+            res.render("index.ejs", {
+                response: result.data.message,
+                cause: result.data.causedBy,
+                moreInfo: result.data.additionalInfo,
+            })
+        } else {
+            res.render("index.ejs", {
+                joke: result.data.setup,
+                delivery: result.data.delivery,
+            })
+        }
+        // console.log(result.data)
+
+    } catch (error) {
+        // console.log(error)
+        console.log(error)
+        res.status(500)
+    }
+
 })
 
 app.listen(port, () => {
