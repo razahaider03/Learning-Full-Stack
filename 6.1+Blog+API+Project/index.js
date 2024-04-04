@@ -43,10 +43,28 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //CHALLENGE 1: GET All posts
 
-app.get("/posts", (req, res) => {
+app.get("/posts", (req,res)=>{
   console.log(posts);
   res.json(posts);
-});
+})
+
+// GET a specific post by id
+app.get("/posts/:id",(req,res)=>{
+  const post = posts.find((p) => {p.id === parseInt(req.params.id)})
+  if (!post) {
+    return res.status(404).json({message:"Post not found"});
+  }
+  res.json(post);
+  
+})
+
+// POST a new post
+
+
+// PATCH a post when you just want to update one parameter
+
+
+// DELETE a specific post by providing the post id
 
 //CHALLENGE 2: GET a specific post by id
 
