@@ -60,7 +60,9 @@ app.get("/posts/:id",(req,res)=>{
 
 // POST a new post
 
-
+app.get("/post/:id", (req,res)=>{
+  res.json(posts);
+})
 // PATCH a post when you just want to update one parameter
 
 
